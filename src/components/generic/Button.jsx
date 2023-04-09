@@ -1,12 +1,14 @@
 import { cva } from "class-variance-authority"
 
-const variants = cva("", {
+const variants = cva("rounded-md px-3 py-2 font-semibold", {
   variants: {
     color: {
-      primary: "bg-blue-500 hover:bg-blue-700 text-white",
+      primary: "bg-primary hover:bg-primary-hover text-white",
+      ghost:
+        "bg-transparent hover:bg-gray-200 text-gray-900 font-normal text-sm",
     },
   },
-  defaults: {
+  defaultVariants: {
     color: "primary",
   },
 })

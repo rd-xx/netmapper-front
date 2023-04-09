@@ -5,7 +5,7 @@ const variants = cva("", {
   variants: {
     style: {
       button:
-        "rounded-md bg-primary px-3 py-2 font-semibold text-white hover:bg-primary-hover",
+        "rounded-md bg-primary px-3 py-2 font-semibold text-white hover:bg-primary-hover", // button's default style
     },
   },
 })

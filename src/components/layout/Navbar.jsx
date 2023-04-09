@@ -1,50 +1,50 @@
 import { useAppContext } from "@/components/business/AppContext"
+import Button from "@/components/generic/Button"
+import Link from "@/components/generic/Link"
 import routes from "@/utils/routes"
 import Image from "next/image"
 
 const Navbar = () => {
   const {
     state: { session },
+    actions: { signOut },
   } = useAppContext()
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50 bg-indigo-200">
-      <nav
-        className="flex items-center justify-between px-8"
-        aria-label="Global"
-      >
-        <div className="flex flex-1">
-          <a href="#">
-            <span className="sr-only">netMAPPER</span>
-            <Image width={64} height={64} src="/logo.svg" alt="" />
-          </a>
-        </div>
+    <header className="sticky top-0 z-50">
+      <nav className="flex items-center justify-between px-8 py-2">
+        <Link href={routes.home.path}>
+          <span className="sr-only">netMAPPER</span>
+          <Image width={64} height={64} src="/logo.svg" alt="" />
+        </Link>
         <div className="flex gap-x-12">
           {Object.keys(routes).map((key) => {
             const item = routes[key]
             const shouldSkip =
-              item.hide || (item.authRequired ? !session : false)
+              item.hide || (item.authRequired ? session == null : false)
 
             if (shouldSkip) {
               return null
             }
 
             return (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-sm font-semibold leading-6 text-gray-900"
+              <Link
+                key={item.label}
+                href={item.path}
+                className="text-sm font-medium leading-6 text-gray-900 hover:text-gray-700"
               >
-                {item.name}
-              </a>
+                {item.label}
+              </Link>
             )
           })}
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
-        </div>
+        {session ? (
+          <Button color="ghost" onClick={signOut}>
+            Se déconnecter
+          </Button>
+        ) : (
+          <Link href={routes.signIn.path}>Se connecter &rarr;</Link>
+        )}
       </nav>
     </header>
   )
