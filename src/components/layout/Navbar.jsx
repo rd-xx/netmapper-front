@@ -18,25 +18,26 @@ const Navbar = () => {
           <Image width={64} height={64} src="/logo.svg" alt="" />
         </Link>
         <div className="flex gap-x-12">
-          {Object.keys(routes).map((key) => {
-            const item = routes[key]
-            const shouldSkip =
-              item.hide || (item.authRequired ? session == null : false)
+          {session &&
+            Object.keys(routes).map((key) => {
+              const item = routes[key]
+              const shouldSkip =
+                item.hide || (item.authRequired ? session == false : false)
 
-            if (shouldSkip) {
-              return null
-            }
+              if (shouldSkip) {
+                return null
+              }
 
-            return (
-              <Link
-                key={item.label}
-                href={item.path}
-                className="text-sm font-medium leading-6 text-gray-900 hover:text-gray-600"
-              >
-                {item.label}
-              </Link>
-            )
-          })}
+              return (
+                <Link
+                  key={item.label}
+                  href={item.path}
+                  className="text-sm font-medium leading-6 text-gray-900 hover:text-gray-600"
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
         </div>
         {session ? (
           <Button color="ghost" onClick={signOut}>

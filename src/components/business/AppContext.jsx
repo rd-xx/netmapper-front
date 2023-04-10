@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react"
 import jsonwebtoken from "jsonwebtoken"
 import config from "@/utils/config.js"
 import api from "@/services/api.js"
+import { useRouter } from "next/router"
+import routes from "@/utils/routes"
 
 const AppContext = createContext()
 
@@ -9,6 +11,7 @@ export const useAppContext = () => useContext(AppContext)
 
 export const AppContextProvider = (props) => {
   const [session, setSession] = useState(null)
+  const { replace, pathname, events } = useRouter()
 
   const signIn = async ({ email, password }) => {
     const {
@@ -40,6 +43,34 @@ export const AppContextProvider = (props) => {
 
     setSession(payload)
   }, [])
+
+  // Checks that the user is allowed to access the current route
+  useEffect(() => {
+    const allowedRoutesWhenLoggedOut = Object.keys(routes)
+      .map((key) => (routes[key]?.authRequired ? null : routes[key].path))
+      .filter((route) => route !== null)
+    const forbiddenRoutesWhenLoggedIn = Object.keys(routes)
+      .map((key) => (routes[key]?.hide ? routes[key].path : null))
+      .filter((route) => route !== null)
+
+    const handleRouteChange = (url) => {
+      if (!session && !allowedRoutesWhenLoggedOut.includes(url)) {
+        replace(routes.home.path)
+      } else if (session && forbiddenRoutesWhenLoggedIn.includes(url)) {
+        replace(routes.home.path)
+      }
+    }
+
+    // Check that initial route is OK
+    handleRouteChange(pathname)
+
+    // Monitor routes
+    events.on("routeChangeStart", handleRouteChange)
+
+    return () => {
+      events.off("routeChangeStart", handleRouteChange)
+    }
+  }, [events, pathname, replace, session])
 
   return (
     <AppContext.Provider
