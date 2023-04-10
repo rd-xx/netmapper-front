@@ -66,12 +66,11 @@ const SignUpPage = () => {
             alt="netMAPPER"
           />
         </Link>
-        <div>
-          <h2 className="mt-8 text-center text-3xl font-bold text-gray-900">
-            Connectez-vous à votre compte
+        <div className="flex flex-col items-center">
+          <h2 className="text-center text-3xl font-bold text-gray-900">
+            Inscrivez-vous
           </h2>
-
-          <div className="mt-8 w-full">
+          <div className="mt-8 w-96">
             <div className="rounded-lg bg-white px-10 py-8 shadow">
               <Form
                 initialValues={initialValues}
@@ -86,7 +85,7 @@ const SignUpPage = () => {
                   label="Mot de passe"
                 />
                 <Button type="submit" className="mt-4">
-                  Se connecter
+                  S'inscrire
                 </Button>
               </Form>
             </div>

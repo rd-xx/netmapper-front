@@ -13,10 +13,12 @@ const LandingPage = () => {
         <span className="font-medium"> nmap</span>.
       </p>
       <div className="mt-10 flex items-center justify-center gap-x-6">
-        <Link href={routes.signUp.path} style="button">
+        <Link href={routes.signUp.path} style="primary">
           Créer un compte
         </Link>
-        <Link href={routes.signIn.path}>Se connecter &rarr;</Link>
+        <Link href={routes.signIn.path} style="ghost">
+          Se connecter &rarr;
+        </Link>
       </div>
     </div>
   )
