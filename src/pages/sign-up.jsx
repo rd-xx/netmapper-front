@@ -1,6 +1,7 @@
 import { useAppContext } from "@/components/business/AppContext"
 import FormField from "@/components/generic/FormField"
 import Button from "@/components/generic/Button"
+import Alert from "@/components/generic/Alert"
 import Form from "@/components/generic/Form"
 import Link from "@/components/generic/Link"
 import Page from "@/components/layout/Page"
@@ -8,6 +9,8 @@ import { useRouter } from "next/router"
 import routes from "@/utils/routes"
 import Image from "next/image"
 import * as yup from "yup"
+import { useState } from "react"
+import { AxiosError } from "axios"
 
 const initialValues = {
   username: "",
@@ -16,8 +19,12 @@ const initialValues = {
 }
 
 const validationSchema = yup.object().shape({
-  username: yup.string().trim().required().label("Nom d'utilisateur"),
-  email: yup.string().email().required().label("E-mail"),
+  username: yup
+    .string()
+    .trim()
+    .required("Nom d'utilisateur requis")
+    .label("Nom d'utilisateur"),
+  email: yup.string().email().required("E-mail requis").label("E-mail"),
   password: yup
     .string()
     .min(8, "Mot de passe doit contenir au moins 8 caractères")
@@ -46,13 +53,23 @@ const SignUpPage = () => {
     actions: { signUp },
   } = useAppContext()
   const router = useRouter()
+  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
   const handleSubmit = async (values) => {
+    setError(null)
+
     try {
+      setIsLoading(true)
       await signUp(values)
       router.push(routes.signIn.path)
     } catch (err) {
-      // TODO: handle error
+      if (err instanceof AxiosError && err.response?.data?.error) {
+        setError(err.response?.data?.error)
+      }
     }
+
+    setIsLoading(false)
   }
 
   return (
@@ -84,13 +101,24 @@ const SignUpPage = () => {
                   type="password"
                   label="Mot de passe"
                 />
-                <Button type="submit" className="mt-4">
+                <div className="flex justify-end">
+                  <Link href={routes.signIn.path} style="link">
+                    Déjà un compte ? Connectez-vous &rarr;
+                  </Link>
+                </div>
+                <Button className="mt-4" type="submit" loading={isLoading}>
                   S'inscrire
                 </Button>
               </Form>
             </div>
           </div>
         </div>
+        {error && (
+          <Alert
+            title="Il y a eu une erreur lors de la création du compte"
+            error={error}
+          />
+        )}
       </div>
     </Page>
   )

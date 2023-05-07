@@ -7,14 +7,14 @@ const Page = ({ children, withoutNavbar = false }) => {
         {children}
       </div>
     )
-  } else {
-    return (
-      <div className="flex h-screen flex-col bg-gray-50">
-        <Navbar />
-        <div className="grid flex-1 place-items-center">{children}</div>
-      </div>
-    )
   }
+
+  return (
+    <div className="flex h-screen flex-col bg-gray-50">
+      <Navbar />
+      <div className="grid flex-1 place-items-center">{children}</div>
+    </div>
+  )
 }
 
 export default Page

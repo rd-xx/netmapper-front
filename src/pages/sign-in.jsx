@@ -1,11 +1,14 @@
 import { useAppContext } from "@/components/business/AppContext"
 import FormField from "@/components/generic/FormField"
 import Button from "@/components/generic/Button"
+import Alert from "@/components/generic/Alert"
 import Form from "@/components/generic/Form"
 import Link from "@/components/generic/Link"
 import Page from "@/components/layout/Page"
 import { useRouter } from "next/router"
 import routes from "@/utils/routes"
+import { AxiosError } from "axios"
+import { useState } from "react"
 import Image from "next/image"
 import * as yup from "yup"
 
@@ -15,7 +18,7 @@ const initialValues = {
 }
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email().required().label("E-mail"),
+  email: yup.string().email().required("Email requis").label("E-mail"),
   password: yup.string().required("Mot de passe requis").label("Mot de passe"),
 })
 
@@ -24,13 +27,23 @@ const SignInPage = () => {
     actions: { signIn },
   } = useAppContext()
   const router = useRouter()
+  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
   const handleSubmit = async (values) => {
+    setError(null)
+
     try {
+      setIsLoading(true)
       await signIn(values)
       router.push(routes.home.path)
     } catch (err) {
-      // TODO: handle error
+      if (err instanceof AxiosError && err.response?.data?.error) {
+        setError(err.response?.data?.error)
+      }
     }
+
+    setIsLoading(false)
   }
 
   return (
@@ -62,13 +75,20 @@ const SignInPage = () => {
                   type="password"
                   label="Mot de passe"
                 />
-                <Button type="submit" className="mt-4">
+                <Button className="mt-4" type="submit" loading={isLoading}>
                   Se connecter
                 </Button>
               </Form>
             </div>
           </div>
         </div>
+
+        {error && (
+          <Alert
+            title="Il y a eu une erreur lors de la connexion"
+            error={error}
+          />
+        )}
       </div>
     </Page>
   )
