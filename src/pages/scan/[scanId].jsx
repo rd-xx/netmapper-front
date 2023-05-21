@@ -43,10 +43,15 @@ const ScanPage = (props) => {
         if (status === "done") {
           clearInterval(intervalId)
         }
+
+        return () => {
+          clearInterval(intervalId)
+        }
       }, 1000)
     } catch (err) {
       router.replace(routes.home.path)
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scanId])
 

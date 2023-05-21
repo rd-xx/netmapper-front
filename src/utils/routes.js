@@ -16,11 +16,6 @@ const routes = {
     path: "/history",
     authRequired: true,
   },
-  scanDetails: {
-    label: "Scan details",
-    path: "/scan",
-    authRequired: true,
-  },
 }
 
 const navbarRoutes = [routes.home, routes.history]

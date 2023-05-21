@@ -4,6 +4,7 @@ import clsx from "clsx"
 const variants = cva("animate-spin fill-secondary text-gray-200", {
   variants: {
     size: {
+      sm: "h-4 w-4",
       md: "h-6 w-6",
       xl: "h-16 w-16",
     },
