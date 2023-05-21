@@ -1,8 +1,6 @@
 # netMAPPER - Frontend
 
-Projet créé dans le cadre du cours de NodeJS.
-
-## Développement
+Projet créé dans le cadre du cours de **Node.js**.
 
 ## Développement
 
@@ -14,5 +12,4 @@ Projet créé dans le cadre du cours de NodeJS.
 
 1. Clonez le dépôt.
 2. Installez les dépendances avec `npm install`.
-3. Copier/collez le fichier `.env.example` et renommez-le en `.env`.
-4. Lancez le serveur de développement avec `npm run dev`.
+3. Lancez le serveur de développement avec `npm run dev`.
