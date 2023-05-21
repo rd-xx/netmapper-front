@@ -11,7 +11,7 @@ const Navbar = () => {
   } = useAppContext()
 
   return (
-    <header className="sticky top-0 z-50 shadow">
+    <header className="sticky top-0 z-50 bg-white shadow">
       <nav className="flex items-center justify-between px-8 py-2">
         <Link href={routes.home.path}>
           <span className="sr-only">netMAPPER</span>

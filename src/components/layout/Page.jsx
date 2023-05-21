@@ -10,9 +10,11 @@ const Page = ({ children, withoutNavbar = false }) => {
   }
 
   return (
-    <div className="flex h-screen flex-col bg-gray-50">
+    <div className="flex h-screen flex-col">
       <Navbar />
-      <div className="grid flex-1 place-items-center">{children}</div>
+      <div className="grid flex-1 place-items-center bg-gray-50">
+        {children}
+      </div>
     </div>
   )
 }
