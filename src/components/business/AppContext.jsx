@@ -13,6 +13,7 @@ export const AppContextProvider = (props) => {
   const [session, setSession] = useState(null)
   const { replace, pathname, events } = useRouter()
 
+  // Auth
   const signIn = async ({ email, password }) => {
     const {
       data: { result: jwt },
@@ -44,6 +45,11 @@ export const AppContextProvider = (props) => {
     setSession(payload)
   }, [])
 
+  const startScan = async (target, options) => {
+    const { data } = await api.post("/nmap/scan", { target, options })
+
+    return data.result
+  }
   // Checks that the user is allowed to access the current route
   useEffect(() => {
     const allowedRoutesWhenLoggedOut = Object.keys(routes)
@@ -78,9 +84,12 @@ export const AppContextProvider = (props) => {
       value={{
         state: { session },
         actions: {
+          // Auth
           signIn,
           signUp,
           signOut,
+          // Scans
+          startScan,
         },
       }}
     />

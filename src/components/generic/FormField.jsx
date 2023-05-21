@@ -1,15 +1,19 @@
 import { useField } from "formik"
 import clsx from "clsx"
+import Label from "@/components/generic/Label"
 
 const FormField = (props) => {
-  const { className, name, label, placeholder, ...otherProps } = props
+  const { className, direction, name, label, placeholder, ...otherProps } =
+    props
   const [field, { error, touched }] = useField({ name })
 
   return (
-    <label className={clsx("flex flex-col gap-2", className)}>
-      {label && (
-        <span className="text-sm font-medium text-neutral-700">{label}</span>
-      )}
+    <Label
+      direction={direction}
+      className={className}
+      label={label}
+      error={touched && error ? error : null}
+    >
       <input
         {...field}
         className={clsx(
@@ -21,10 +25,7 @@ const FormField = (props) => {
         placeholder={placeholder || label}
         {...otherProps}
       />
-      {touched && error && (
-        <span className="text-sm font-semibold text-red-500">{error}</span>
-      )}
-    </label>
+    </Label>
   )
 }
 

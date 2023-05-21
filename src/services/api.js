@@ -5,9 +5,9 @@ const api = axios.create({
   baseURL: config.api.baseURL,
   get headers() {
     return {
-      authorization:
+      Authorization:
         typeof localStorage !== "undefined"
-          ? localStorage.getItem(config.security.jwt.storageKey)
+          ? "Bearer " + localStorage.getItem(config.security.jwt.storageKey)
           : null,
     }
   },
