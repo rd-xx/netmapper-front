@@ -7,19 +7,46 @@ import { routes } from "@/utils/routes"
 import { useRouter } from "next/router"
 import clsx from "clsx"
 
-export default function Example() {
+const tableHeadersCommonClasses =
+  "border-b border-gray-300 bg-slate-100 bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+const tableDataCommonClasses = "px-3 py-4 text-sm text-gray-500"
+
+const tableHeaders = [
+  {
+    label: "Target",
+    className: "sm:pl-6 lg:pl-8",
+  },
+  {
+    label: "Option",
+  },
+  {
+    label: "Status",
+    className: "hidden md:table-cell",
+  },
+  {
+    label: "Error",
+    className: "hidden lg:table-cell",
+  },
+]
+
+const History = () => {
   const [scans, setScans] = useState([])
   const {
+    state: { session },
     actions: { getScans },
   } = useAppContext()
   const router = useRouter()
 
   useEffect(() => {
     ;(async () => {
-      const scansFromApi = await getScans()
-      setScans(scansFromApi)
+      try {
+        const scansFromApi = await getScans()
+        setScans(scansFromApi)
+      } catch (err) {
+        router.replace(routes.home.path)
+      }
     })()
-  }, [getScans])
+  }, [getScans, router, session])
 
   return (
     <Page>
@@ -41,18 +68,14 @@ export default function Example() {
             <table className="w-full table-auto border-separate border-spacing-0">
               <thead>
                 <tr>
-                  <th className="border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8">
-                    Target
-                  </th>
-                  <th className="border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Options
-                  </th>
-                  <th className="hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell">
-                    Status
-                  </th>
-                  <th className="hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                    Error
-                  </th>
+                  {tableHeaders.map(({ label, className }) => (
+                    <th
+                      key={label}
+                      className={clsx(className, tableHeadersCommonClasses)}
+                    >
+                      {label}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
@@ -64,21 +87,20 @@ export default function Example() {
                   >
                     <td
                       className={clsx(
-                        scanIdx !== scans.length - 1
-                          ? "border-b border-gray-200"
-                          : "",
-                        " py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8"
+                        "py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8",
+                        {
+                          ["border-b border-gray-200"]:
+                            scanIdx !== scans.length - 1,
+                        }
                       )}
                     >
                       {scan.target}
                     </td>
                     <td
-                      className={clsx(
-                        scanIdx !== scans.length - 1
-                          ? "border-b border-gray-200"
-                          : "",
-                        "space-x-2 px-3 py-4 text-sm text-gray-500"
-                      )}
+                      className={clsx("space-x-2", tableDataCommonClasses, {
+                        ["border-b border-gray-200"]:
+                          scanIdx !== scans.length - 1,
+                      })}
                     >
                       {scan.options.map((x) => (
                         <Badge key={x}>{x}</Badge>
@@ -86,10 +108,12 @@ export default function Example() {
                     </td>
                     <td
                       className={clsx(
-                        scanIdx !== scans.length - 1
-                          ? "border-b border-gray-200"
-                          : "",
-                        "hidden px-3 py-4 text-sm text-gray-500 md:table-cell"
+                        "hidden md:table-cell",
+                        tableDataCommonClasses,
+                        {
+                          ["border-b border-gray-200"]:
+                            scanIdx !== scans.length - 1,
+                        }
                       )}
                     >
                       <Badge
@@ -101,10 +125,12 @@ export default function Example() {
                     </td>
                     <td
                       className={clsx(
-                        scanIdx !== scans.length - 1
-                          ? "border-b border-gray-200"
-                          : "",
-                        "hidden px-3 py-4 text-sm text-gray-500 lg:table-cell"
+                        "hidden lg:table-cell",
+                        tableDataCommonClasses,
+                        {
+                          ["border-b border-gray-200"]:
+                            scanIdx !== scans.length - 1,
+                        }
                       )}
                     >
                       <Badge color={scan.error.length ? "error" : "success"}>
@@ -121,3 +147,5 @@ export default function Example() {
     </Page>
   )
 }
+
+export default History

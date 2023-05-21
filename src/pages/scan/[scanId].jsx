@@ -29,31 +29,33 @@ const ScanPage = (props) => {
   const router = useRouter()
 
   useEffect(() => {
-    const handleScan = async () => {
-      const scanFromApi = await getScan(scanId)
-      setScan(scanFromApi)
+    ;(async () => {
+      const handleScan = async () => {
+        try {
+          const scanFromApi = await getScan(scanId)
+          setScan(scanFromApi)
 
-      return scanFromApi.status
-    }
+          return scanFromApi.status
+        } catch {
+          router.replace(routes.home.path)
 
-    try {
+          return
+        }
+      }
+
+      await handleScan()
       const intervalId = setInterval(async () => {
         const status = await handleScan()
 
-        if (status === "done") {
-          clearInterval(intervalId)
-        }
-
-        return () => {
+        if (!status || status === "done") {
           clearInterval(intervalId)
         }
       }, 1000)
-    } catch (err) {
-      router.replace(routes.home.path)
-    }
 
+      return () => clearInterval(intervalId)
+    })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scanId])
+  }, [])
 
   const renderLines = useCallback((stringArray) => {
     return stringArray.map((x) =>

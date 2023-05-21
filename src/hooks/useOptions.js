@@ -17,8 +17,6 @@ const useOptions = () => {
     ;(async () => {
       setIsLoading(true)
 
-      // await new Promise((resolve) => setTimeout(resolve, 2000))
-
       const response = await api("/nmap/options")
       const { result } = response.data
       setOptions(result)

@@ -144,7 +144,7 @@ const Scan = () => {
           </div>
         </div>
       </div>
-      <div className="w-4/5 rounded-lg py-8 shadow-lg lg:w-[500px]">
+      <div className="w-4/5 rounded-lg border border-slate-200 bg-slate-100 py-8 shadow-lg lg:w-[500px]">
         <Form
           className="px-10"
           initialValues={initialValues}

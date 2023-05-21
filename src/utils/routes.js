@@ -1,18 +1,18 @@
 const routes = {
   home: {
-    label: "Home",
+    label: "Accueuil",
     path: "/",
   },
   signIn: {
-    label: "Sign in",
+    label: "Connexion",
     path: "/sign-in",
   },
   signUp: {
-    label: "Sign up",
+    label: "Inscription",
     path: "/sign-up",
   },
   history: {
-    label: "History",
+    label: "Historique",
     path: "/history",
     authRequired: true,
   },

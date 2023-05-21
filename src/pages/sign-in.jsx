@@ -3,13 +3,13 @@ import FormField from "@/components/generic/FormField"
 import Button from "@/components/generic/Button"
 import Alert from "@/components/generic/Alert"
 import Form from "@/components/generic/Form"
-import Link from "@/components/generic/Link"
 import Page from "@/components/layout/Page"
 import { useRouter } from "next/router"
-import routes from "@/utils/routes"
+import { routes } from "@/utils/routes"
 import { AxiosError } from "axios"
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import * as yup from "yup"
 
 const initialValues = {
@@ -36,7 +36,8 @@ const SignInPage = () => {
     try {
       setIsLoading(true)
       await signIn(values)
-      router.push(routes.home.path)
+      router.replace(routes.home.path)
+      router.reload()
     } catch (err) {
       if (err instanceof AxiosError && err.response?.data?.error) {
         setError(err.response?.data?.error)
@@ -48,7 +49,7 @@ const SignInPage = () => {
 
   return (
     <Page withoutNavbar>
-      <div className="flex items-center gap-x-48">
+      <div className="flex flex-col items-center gap-x-48 gap-y-16 lg:flex-row">
         <Link href={routes.home.path}>
           <Image
             width={256}

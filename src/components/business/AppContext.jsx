@@ -29,6 +29,7 @@ export const AppContextProvider = (props) => {
   const signOut = () => {
     localStorage.removeItem(config.security.jwt.storageKey)
     setSession(false)
+    replace(routes.signIn.path)
   }
 
   useEffect(() => {

@@ -1,5 +1,7 @@
 const buildCommandPreview = (inputOptions, noInputOptions) =>
-  `nmap [target] ${noInputOptions.map((x) => "-" + x).join(" ")}`
+  `nmap [target] ${inputOptions.map(
+    (x) => `-${x.key}=[${x.key}Value]`
+  )} ${noInputOptions.map((x) => "-" + x).join(" ")}`
 
 const buildDatetime = (date) => {
   const d = new Date(date)
