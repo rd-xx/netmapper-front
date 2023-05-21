@@ -1,7 +1,7 @@
 import { useAppContext } from "@/components/business/AppContext"
+import { routes, navbarRoutes } from "@/utils/routes"
 import Button from "@/components/generic/Button"
 import Link from "@/components/generic/Link"
-import routes from "@/utils/routes"
 import Image from "next/image"
 
 const Navbar = () => {
@@ -19,8 +19,7 @@ const Navbar = () => {
         </Link>
         <div className="flex gap-x-12">
           {session &&
-            Object.keys(routes).map((key) => {
-              const item = routes[key]
+            navbarRoutes.map((item) => {
               const shouldSkip =
                 item.hide || (item.authRequired ? session == false : false)
 

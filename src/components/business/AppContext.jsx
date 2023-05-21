@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react"
+import { useRouter } from "next/router"
 import jsonwebtoken from "jsonwebtoken"
+import { routes } from "@/utils/routes"
 import config from "@/utils/config.js"
 import api from "@/services/api.js"
-import { useRouter } from "next/router"
-import routes from "@/utils/routes"
 
 const AppContext = createContext()
 

@@ -6,12 +6,10 @@ const routes = {
   signIn: {
     label: "Sign in",
     path: "/sign-in",
-    hide: true,
   },
   signUp: {
     label: "Sign up",
     path: "/sign-up",
-    hide: true,
   },
   history: {
     label: "History",
@@ -20,4 +18,6 @@ const routes = {
   },
 }
 
-export default routes
+const navbarRoutes = [routes.home, routes.history]
+
+export { routes, navbarRoutes }

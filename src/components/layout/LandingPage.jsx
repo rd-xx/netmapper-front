@@ -1,5 +1,5 @@
 import Link from "@/components/generic/Link"
-import routes from "@/utils/routes"
+import { routes } from "@/utils/routes"
 
 const LandingPage = () => {
   return (
