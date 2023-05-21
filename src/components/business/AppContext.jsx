@@ -50,19 +50,21 @@ export const AppContextProvider = (props) => {
 
     return data.result
   }
+  const getScan = async (id) => {
+    const { data } = await api.get(`/nmap/scan/${id}`)
+
+    return data.result
+  }
+  const getScans = async () => {
+    const { data } = await api.get("/nmap/scans")
+
+    return data.result
+  }
+
   // Checks that the user is allowed to access the current route
   useEffect(() => {
-    const allowedRoutesWhenLoggedOut = Object.keys(routes)
-      .map((key) => (routes[key]?.authRequired ? null : routes[key].path))
-      .filter((route) => route !== null)
-    const forbiddenRoutesWhenLoggedIn = Object.keys(routes)
-      .map((key) => (routes[key]?.hide ? routes[key].path : null))
-      .filter((route) => route !== null)
-
     const handleRouteChange = (url) => {
-      if (!session && !allowedRoutesWhenLoggedOut.includes(url)) {
-        replace(routes.home.path)
-      } else if (session && forbiddenRoutesWhenLoggedIn.includes(url)) {
+      if (session && url === routes.signIn.path) {
         replace(routes.home.path)
       }
     }
@@ -90,6 +92,8 @@ export const AppContextProvider = (props) => {
           signOut,
           // Scans
           startScan,
+          getScan,
+          getScans,
         },
       }}
     />

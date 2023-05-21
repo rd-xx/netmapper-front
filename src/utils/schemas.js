@@ -40,5 +40,7 @@ export const ipSchema = yup
     /^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?!$)|$)){4}$/,
     "Adresse IP invalide"
   )
-  .required()
+  .required("Adresse IP requise")
   .label("Adresse IP")
+
+export const cleanRegExp = (str) => str.replace(new RegExp("\\/", "g"), "")
