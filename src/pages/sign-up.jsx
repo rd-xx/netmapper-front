@@ -1,3 +1,4 @@
+import { usernameSchema, emailSchema, passwordSchema } from "@/utils/schemas"
 import { useAppContext } from "@/components/business/AppContext"
 import FormField from "@/components/generic/FormField"
 import Button from "@/components/generic/Button"
@@ -7,10 +8,10 @@ import Link from "@/components/generic/Link"
 import Page from "@/components/layout/Page"
 import { useRouter } from "next/router"
 import routes from "@/utils/routes"
+import { AxiosError } from "axios"
+import { useState } from "react"
 import Image from "next/image"
 import * as yup from "yup"
-import { useState } from "react"
-import { AxiosError } from "axios"
 
 const initialValues = {
   username: "",
@@ -19,33 +20,9 @@ const initialValues = {
 }
 
 const validationSchema = yup.object().shape({
-  username: yup
-    .string()
-    .trim()
-    .required("Nom d'utilisateur requis")
-    .label("Nom d'utilisateur"),
-  email: yup.string().email().required("E-mail requis").label("E-mail"),
-  password: yup
-    .string()
-    .min(8, "Mot de passe doit contenir au moins 8 caractères")
-    .matches(
-      /^.*(?=.*[0-9]+).*$/,
-      "Mot de passe doit contenir au moins un chiffre"
-    )
-    .matches(
-      /^.*(?=.*\p{Ll}+).*$/u,
-      "Mot de passe doit contenir au moins une lettre minuscule"
-    )
-    .matches(
-      /^.*(?=.*\p{Lu}+).*$/u,
-      "Mot de passe doit contenir au moins une lettre majuscule"
-    )
-    .matches(
-      /^.*(?=.*[^0-9\p{L}]+).*$/u,
-      "Mot de passe doit contenir au moins un caractère spécial"
-    )
-    .required("Mot de passe requis")
-    .label("Mot de passe"),
+  username: usernameSchema,
+  email: emailSchema,
+  password: passwordSchema,
 })
 
 const SignUpPage = () => {
